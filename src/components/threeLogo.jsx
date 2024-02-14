@@ -23,17 +23,27 @@ const ThreeLogo = () => {
     pageX = 0.5;
     pageY = 0.5;
 
-    renderer.setSize(window.innerWidth / 2, window.innerHeight / 2);
+    const parentElement = document.getElementById("chatbox"); // Get the parent element
+    const width = parentElement.clientWidth / 2;
+    const height = parentElement.clientHeight / 2;
+    renderer.setSize(width, height);
     containerRef.current.appendChild(renderer.domElement);
 
     window.addEventListener("resize", () => {
-      renderer.setSize(window.innerWidth, window.innerHeight);
+      const width = parentElement.clientWidth;
+      const height = parentElement.clientHeight;
+
+      renderer.setSize(width, height);
       camera.aspect = window.innerWidth / window.innerHeight;
 
       camera.updateProjectionMatrix();
     });
 
-    camera.position.z = 20;
+    if (window.innerWidth <= 1020) {
+      camera.position.z = 20 * (1020/window.innerWidth)
+    } else {
+      camera.position.z = 20;
+    }
 
     let directLight = new THREE.DirectionalLight("#333", 4);
     directLight.position.set(0, 7, 5);

@@ -1,15 +1,19 @@
 import { useState } from "react";
+import { AES } from "crypto-js";
 import ThreeLogo from "../components/threeLogo";
+import key from "../api/key";
 
-function LandingPage() {
+function Home() {
   const [password, setPassword] = useState("");
 
   const handleEnter = (e) => {
     e.preventDefault();
     if (!password) return;
+    console.log(key.API_URL);
     try {
-      localStorage.setItem("pw", password);
-      alert("App still under development");
+      const temp = AES.encrypt(password, key.SECRET).toString();
+      localStorage.setItem("pw", temp);
+      window.location.reload();
     } catch (error) {
       console.log(error);
     }
@@ -22,7 +26,9 @@ function LandingPage() {
         className="h-[92vh] w-100 flex items-center justify-center bg-black border-2 border-dashed flex flex-col"
       >
         <ThreeLogo />
-        <h1 id="label" className="font-semibold mb-2 ml-2">CHANNEL PASSWORD:</h1>
+        <h1 id="label" className="font-semibold mb-2 ml-2">
+          CHANNEL PASSWORD:
+        </h1>
         <form onSubmit={handleEnter}>
           <div className="input-container">
             <input
@@ -40,10 +46,9 @@ function LandingPage() {
             ENTER
           </button>
         </form>
-        <p className="text-white absolute bottom-0 right-0 mr-12 mb-12">*App still under development </p>
       </div>
     </>
   );
 }
 
-export default LandingPage;
+export default Home;
