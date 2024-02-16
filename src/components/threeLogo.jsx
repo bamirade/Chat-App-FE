@@ -23,7 +23,7 @@ const ThreeLogo = () => {
     pageX = 0.5;
     pageY = 0.5;
 
-    const parentElement = document.getElementById("chatbox"); // Get the parent element
+    const parentElement = document.getElementById("chatbox");
     const width = parentElement.clientWidth / 2;
     const height = parentElement.clientHeight / 2;
     renderer.setSize(width, height);
@@ -33,8 +33,14 @@ const ThreeLogo = () => {
       const width = parentElement.clientWidth;
       const height = parentElement.clientHeight;
 
-      renderer.setSize(width, height);
+      renderer.setSize(width / 2, height / 2);
       camera.aspect = window.innerWidth / window.innerHeight;
+
+      if (window.innerWidth <= 1020) {
+        camera.position.z = 20 * (1020/window.innerWidth)
+      } else {
+        camera.position.z = 20;
+      }
 
       camera.updateProjectionMatrix();
     });

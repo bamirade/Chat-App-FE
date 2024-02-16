@@ -36,6 +36,7 @@ function Home() {
               name="password"
               className="input"
               id="password"
+              autoComplete="off"
               onChange={(e) => setPassword(e.target.value)}
             />
             <div className="top-line" />
