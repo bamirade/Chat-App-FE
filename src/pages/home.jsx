@@ -13,6 +13,7 @@ function Home() {
     try {
       const temp = AES.encrypt(password, key.SECRET).toString();
       localStorage.setItem("pw", temp);
+      localStorage.setItem("prev", Date.now());
       window.location.reload();
     } catch (error) {
       console.log(error);

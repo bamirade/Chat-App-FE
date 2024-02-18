@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import key from "../api/key";
-import { AES } from "crypto-js";
+import { AES, enc } from "crypto-js";
 const Form = () => {
   const [message, setMessage] = useState("");
   const [isUser, setIsUser] = useState(false);
@@ -10,7 +10,9 @@ const Form = () => {
   const handleSend = async (e) => {
     e.preventDefault();
     if (!message) return;
-    const pw = localStorage.getItem("pw");
+    const pw = AES.decrypt(localStorage.getItem("pw"), key.SECRET).toString(
+      enc.Utf8
+    );
     const m = AES.encrypt(message, key.SECRET).toString();
     const username = AES.encrypt(
       localStorage.getItem("uid"),
@@ -75,7 +77,7 @@ const Form = () => {
             name="message"
             autoComplete="off"
             value={message}
-            maxLength={200}
+            maxLength={300}
             className="w-full m-4 ml-8 mr-8 bg-transparent outline-none border-b-2 border-dashed"
             onChange={(e) => setMessage(e.target.value)}
             onKeyDown={handleKeyDown}
@@ -111,9 +113,9 @@ const Form = () => {
           <input
             placeholder="Set Username..."
             type="text"
-            name="message"
+            name="username"
             autoComplete="off"
-            maxLength={10}
+            maxLength={20}
             value={userName}
             className="w-full m-4 ml-8 mr-8 bg-transparent outline-none border-b-2 border-dashed"
             onChange={(e) => setUserName(e.target.value)}
